@@ -43,12 +43,4 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.put('/:status', async (req, res, next) => {
-  try {
-    return sendStatus(200);
-  } catch (error) {
-    next(error);
-  }
-});
-
 module.exports = router;

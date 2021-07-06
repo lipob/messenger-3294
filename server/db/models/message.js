@@ -10,9 +10,9 @@ const Message = db.define("message", {
     type: Sequelize.INTEGER,
     allowNull: false,
   },
-  status: {
-    type: Sequelize.STRING,
-    defaultValue: 'unread',
+  read: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
   }
 });
 
