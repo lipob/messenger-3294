@@ -5,6 +5,7 @@ import {
   addConversation,
   setNewMessage,
   setSearchedUsers,
+  resetUnreadMessages,
 } from "../conversations";
 import { gotUser, setFetchingStatus } from "../user";
 
@@ -119,3 +120,13 @@ export const searchUsers = (searchTerm) => async (dispatch) => {
     console.error(error);
   }
 };
+
+// Update message read status to true
+export const updateMessagesReadStatus = (conversationId, userId) => async (dispatch) => {
+  try {
+    const { data } = await axios.put(`/api/conversations/${conversationId}`, {userId});
+    dispatch(resetUnreadMessages(data, conversationId))
+  } catch (error) {
+    console.log(error);
+  }
+}

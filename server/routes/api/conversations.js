@@ -86,11 +86,12 @@ router.get("/", async (req, res, next) => {
 router.put('/:id', async (req, res, next) => {
   try {
     const conversationId = req.params.id;
-    
+    const { userId } = req.body;
+    const currentUserId = JSON.stringify(userId);
+
     const messages = await Message.findAll({
       where: {
         conversationId,
-        read: false,
       }
     })
 
@@ -99,9 +100,11 @@ router.put('/:id', async (req, res, next) => {
     }
 
     for (let i = 0; i < messages.length; i++) {
-      messages[i].read = true;
+      if (messages[i].senderId !== Number(currentUserId)) {
+        messages[i].read = true;
+        messages[i].save();
+      }
     }
-    messages.save();
 
     res.json(messages);
   } catch (error) {
