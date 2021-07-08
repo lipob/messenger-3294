@@ -29,13 +29,24 @@ const ActiveChat = (props) => {
   const dispatch = useDispatch();
   const activeConversation = props.activeConversation;
 
+  const conversationId = conversation.id;
+  const userId = user.id;
+
+  // reset unread messages when active chat
   useEffect(() => {
-    const conversationId = conversation.id;
-    const userId = user.id;
     if (conversationId && userId) {
       dispatch(updateMessagesReadStatus(conversationId, userId));
     }
   }, [activeConversation])
+  
+  // reset unread messages when scroll to bottom
+  window.onscroll = function(ev) {
+    if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
+      if (conversationId && userId) {
+        dispatch(updateMessagesReadStatus(conversationId, userId));
+      }
+    }
+  };
 
   return (
     <Box className={classes.root}>
