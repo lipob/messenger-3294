@@ -9,7 +9,6 @@ export const addMessageToStore = (state, payload) => {
       messages: [message],
     };
     newConvo.latestMessageText = message.text;
-    // newConvo.unreadMessages += 1;
     return [newConvo, ...state];
   }
 
@@ -18,12 +17,6 @@ export const addMessageToStore = (state, payload) => {
       const convoCopy = { ...convo };
       convoCopy.messages.push(message);
       convoCopy.latestMessageText = message.text;
-      
-      // const otherUser = convoCopy.otherUser.id;
-      // const messageUserId = message.userId;
-      // const unreadMessages = convoCopy.messages.filter((message) => (message.read === false && otherUser !== messageUserId))
-      // convoCopy.unreadMessages = unreadMessages.length;
-
       return convoCopy;
     } else {
       return convo;
@@ -82,7 +75,6 @@ export const addNewConvoToStore = (state, recipientId, message) => {
       newConvo.id = message.conversationId;
       newConvo.messages.push(message);
       newConvo.latestMessageText = message.text;
-      // newConvo.unreadMessages += 1;
       return newConvo;
     } else {
       return convo;
