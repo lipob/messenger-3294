@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Box, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { countUnreadMessages } from "../../store/conversations";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,15 +41,24 @@ const useStyles = makeStyles((theme) => ({
 
 const ChatContent = (props) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const { conversation } = props;
-  const { latestMessageText, otherUser, unreadMessages } = conversation;
+  const { latestMessageText, otherUser, unreadMessages, messages } = conversation;
+  const conversationId = conversation.id;
+
+  useEffect(() => {
+    if (messages && messages[messages.length - 1].senderId === otherUser.id) {
+      dispatch(countUnreadMessages(conversationId));
+    }
+
+  }, [latestMessageText])
 
   return (
     <Box className={classes.root}>
       <Box>
         <Typography className={classes.username}>
-          {otherUser.username}
+          {otherUser.username}{messages[messages.length - 1].senderId}
         </Typography>
         <Typography className={classes.previewText}>
           {latestMessageText}

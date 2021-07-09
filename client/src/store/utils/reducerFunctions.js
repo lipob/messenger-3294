@@ -1,6 +1,6 @@
 export const addMessageToStore = (state, payload) => {
   const { message, sender } = payload;
-
+  
   // if sender isn't null, that means the message needs to be put in a brand new convo
   if (sender !== null) {
     const newConvo = {
@@ -9,7 +9,7 @@ export const addMessageToStore = (state, payload) => {
       messages: [message],
     };
     newConvo.latestMessageText = message.text;
-    newConvo.unreadMessages += 1;
+    // newConvo.unreadMessages += 1;
     return [newConvo, ...state];
   }
 
@@ -18,7 +18,11 @@ export const addMessageToStore = (state, payload) => {
       const convoCopy = { ...convo };
       convoCopy.messages.push(message);
       convoCopy.latestMessageText = message.text;
-      convoCopy.unreadMessages += 1;
+      
+      // const otherUser = convoCopy.otherUser.id;
+      // const messageUserId = message.userId;
+      // const unreadMessages = convoCopy.messages.filter((message) => (message.read === false && otherUser !== messageUserId))
+      // convoCopy.unreadMessages = unreadMessages.length;
 
       return convoCopy;
     } else {
@@ -78,7 +82,7 @@ export const addNewConvoToStore = (state, recipientId, message) => {
       newConvo.id = message.conversationId;
       newConvo.messages.push(message);
       newConvo.latestMessageText = message.text;
-      newConvo.unreadMessages += 1;
+      // newConvo.unreadMessages += 1;
       return newConvo;
     } else {
       return convo;
@@ -89,8 +93,6 @@ export const addNewConvoToStore = (state, recipientId, message) => {
 // update messages when read
 export const updateMessages = (state, payload) => {
   const { data, conversationId } = payload;
-  console.log('mensajes que llegan por payload...' + data);
-  console.log('conversationId por payload...' + conversationId);
 
   return state.map((convo) => {
     if (convo.id === conversationId) {
@@ -101,5 +103,18 @@ export const updateMessages = (state, payload) => {
     } else {
       return convo;
     }
-  })
+  });
+};
+
+// sum unread messages
+export const sumUnreadMessages = (state, conversationId) => {
+  return state.map((convo) => {
+    if (convo.id === conversationId) {
+      const convoCopy = { ...convo };
+      convoCopy.unreadMessages += 1;
+      return convoCopy;
+    } else {
+      return convo;
+    }
+  });
 };
