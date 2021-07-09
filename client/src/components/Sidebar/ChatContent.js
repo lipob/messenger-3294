@@ -58,7 +58,7 @@ const ChatContent = (props) => {
     <Box className={classes.root}>
       <Box>
         <Typography className={classes.username}>
-          {otherUser.username}{messages[messages.length - 1].senderId}
+          {otherUser.username}
         </Typography>
         <Typography className={classes.previewText}>
           {latestMessageText}

@@ -86,12 +86,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    updateMessagesReadStatus: (conversationId) => {
-      dispatch(updateMessagesReadStatus(conversationId));
-    }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ActiveChat);
+export default connect(mapStateToProps, null)(ActiveChat);
