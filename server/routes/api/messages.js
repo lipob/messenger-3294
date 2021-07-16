@@ -16,6 +16,7 @@ router.post("/", async (req, res, next) => {
       let conversation = await Conversation.findByPk(
         conversationId
       );
+      // check if the sender belongs to the conversation and if it's true, create the message
       if (conversation.user1Id === senderId || conversation.user2Id === senderId) {
         const message = await Message.create({ senderId, text, conversationId });
         return res.json({ message, sender });
