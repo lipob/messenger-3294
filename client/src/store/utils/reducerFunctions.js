@@ -99,7 +99,7 @@ export const updateMessages = (state, payload) => {
 };
 
 // sum unread messages
-export const sumUnreadMessages = (state, conversationId) => {
+export const incrementUnreadMessages = (state, conversationId) => {
   return state.map((convo) => {
     if (convo.id === conversationId) {
       const convoCopy = { ...convo };

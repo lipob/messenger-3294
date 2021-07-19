@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Box, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { countUnreadMessages } from "../../store/conversations";
+import { updateUnreadMessagesCount } from "../../store/conversations";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,7 +55,7 @@ const ChatContent = (props) => {
 
   useEffect(() => {
     if (messages.length && messages[messages.length - 1].senderId === otherUser.id) {
-      dispatch(countUnreadMessages(conversationId));
+      dispatch(updateUnreadMessagesCount(conversationId));
     }
   }, [latestMessageText])
 
