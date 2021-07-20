@@ -20,9 +20,11 @@ router.get("/", async (req, res, next) => {
         },
       },
       attributes: ["id"],
-      order: [[Message, "createdAt", "ASC"]],
+      order: [
+        [Message, "createdAt", "ASC"],
+      ],
       include: [
-        { model: Message, order: ["createdAt", "ASC"] },
+        { model: Message },
         {
           model: User,
           as: "user1",
@@ -79,6 +81,18 @@ router.get("/", async (req, res, next) => {
       const latestMessageIndex = convoJSON.messages.length - 1;
       convoJSON.latestMessageText = convoJSON.messages[latestMessageIndex].text;
       conversations[i] = convoJSON;
+    }
+
+    // sort conversations using insertion sort method
+    for (var i = 1; i < conversations.length; i++) {
+      var j = i - 1;
+      var auxConvo = conversations[i];
+      var aux = conversations[i].messages[conversations[i].messages.length - 1].createdAt;
+      while (j >= 0 && conversations[j].messages[conversations[j].messages.length - 1].createdAt < aux) {
+        conversations[j + 1] = conversations[j];
+        j = j - 1;
+      }
+      conversations[j + 1] = auxConvo;
     }
 
     res.json(conversations);
