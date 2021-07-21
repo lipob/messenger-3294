@@ -21,6 +21,12 @@ const useStyles = makeStyles((theme) => ({
     color: "#9CADC8",
     letterSpacing: -0.17,
   },
+  previewTextUnread: {
+    fontSize: 14,
+    color: "#000000",
+    fontWeight: 'bold',
+    letterSpacing: -0.17,
+  },
   notification: {
     height: 20,
     minWidth: 20,
@@ -48,10 +54,9 @@ const ChatContent = (props) => {
   const conversationId = conversation.id;
 
   useEffect(() => {
-    if (messages && messages[messages.length - 1].senderId === otherUser.id) {
+    if (messages.length && messages[messages.length - 1].senderId === otherUser.id) {
       dispatch(countUnreadMessages(conversationId));
     }
-
   }, [latestMessageText])
 
   return (
@@ -60,7 +65,7 @@ const ChatContent = (props) => {
         <Typography className={classes.username}>
           {otherUser.username}
         </Typography>
-        <Typography className={classes.previewText}>
+        <Typography className={unreadMessages > 0 ? classes.previewTextUnread: classes.previewText}>
           {latestMessageText}
         </Typography>
       </Box>
