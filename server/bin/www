@@ -37,7 +37,6 @@ io.use((socket, next) => {
     const token = socket.handshake.auth.token;
     jwt.verify(token, process.env.SESSION_SECRET, (err, decoded) => {
       if (err) return next(new Error('Authentication error'));
-      socket.connect();
       next();
     });
   } else {
