@@ -11,6 +11,11 @@ router.post("/", async (req, res, next) => {
     const senderId = req.user.id;
     const { recipientId, text, conversationId, sender } = req.body;
 
+    // for new conversations, make sure that the sender is the same as senderId
+    if (sender && sender.id !== senderId) {
+      return res.sendStatus(401);
+    }
+
     // if we already know conversation id, we can save time and just add it to message and return
     if (conversationId) {
       let conversation = await Conversation.findByPk(
