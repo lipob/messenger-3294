@@ -5,6 +5,7 @@ import {
   removeOfflineUser,
   addOnlineUser,
 } from "./store/conversations";
+import { setNewMessageConvoId } from './store/newMessageConvoId';
 
 const token = localStorage.getItem("messenger-token");
 
@@ -22,6 +23,7 @@ socket.on("connect", () => {
   });
   socket.on("new-message", (data) => {
     store.dispatch(setNewMessage(data.message, data.sender));
+    store.dispatch(setNewMessageConvoId(data.message.conversationId));
   });
 });
 

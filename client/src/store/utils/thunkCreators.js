@@ -7,6 +7,7 @@ import {
   setSearchedUsers,
   resetUnreadMessages,
 } from "../conversations";
+import { setNewMessageConvoId } from "../newMessageConvoId";
 import { gotUser, setFetchingStatus } from "../user";
 
 axios.interceptors.request.use(async function (config) {
@@ -106,6 +107,7 @@ export const postMessage = (body) => async (dispatch) => {
       dispatch(setNewMessage(data.message));
     }
     sendMessage(data, body);
+    dispatch(setNewMessageConvoId(data.message.conversationId));
   } catch (error) {
     console.error(error);
   }

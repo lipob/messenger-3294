@@ -110,3 +110,15 @@ export const incrementUnreadMessages = (state, conversationId) => {
     }
   });
 };
+
+// re order conversations when there is a new message, if conversation is not at index 0
+export const updateConvosOrder = (state, conversationId) => {
+  const updatedConvoIndex = state.findIndex(convo => convo.id === conversationId);
+  const newState = [...state];
+  const updatedConvo = newState.filter(convo => convo.id === conversationId);
+  newState.splice(updatedConvoIndex, 1);
+  newState.unshift(updatedConvo[0])
+
+  return newState
+
+};
