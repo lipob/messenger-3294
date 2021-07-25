@@ -28,8 +28,7 @@ const Sidebar = (props) => {
   const [newMessagesConvoId, setNewMessagesConvoId] = useState('')
   
   const conversations = props.conversations || [];
-  const newMessageConvoId = props.newMessageConvoId
-  const { handleChange, searchTerm } = props;
+  const { handleChange, searchTerm, newMessageConvoId } = props;
 
   useEffect(() => {
     setNewMessagesConvoId(newMessageConvoId)

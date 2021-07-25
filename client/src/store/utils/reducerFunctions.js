@@ -117,8 +117,7 @@ export const updateConvosOrder = (state, conversationId) => {
   const newState = [...state];
   const updatedConvo = newState.filter(convo => convo.id === conversationId);
   newState.splice(updatedConvoIndex, 1);
-  newState.unshift(updatedConvo[0])
-
-  return newState
+  
+  return [ updatedConvo[0], ...newState ];
 
 };
