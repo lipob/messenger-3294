@@ -125,7 +125,8 @@ export const searchUsers = (searchTerm) => async (dispatch) => {
 export const updateMessagesReadStatus = (conversationId, userId) => async (dispatch) => {
   try {
     const { data } = await axios.put(`/api/conversations/${conversationId}`, {userId});
-    dispatch(resetUnreadMessages(data, conversationId))
+    const messages = data.messages
+    dispatch(resetUnreadMessages(messages, conversationId));
   } catch (error) {
     console.log(error);
   }

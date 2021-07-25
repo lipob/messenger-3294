@@ -72,10 +72,10 @@ export const addConversation = (recipientId, newMessage) => {
 };
 
 // reset unread messages
-export const resetUnreadMessages = (data, conversationId) => {
+export const resetUnreadMessages = (messages, conversationId) => {
   return {
     type: RESET_UNREAD_MESSAGES,
-    payload: { data, conversationId },
+    payload: { messages, conversationId },
   };
 };
 
