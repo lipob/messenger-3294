@@ -98,6 +98,21 @@ export const updateMessages = (state, payload) => {
   });
 };
 
+// update the last read message by the other user
+export const updateLastReadMessage = (state, payload) => {
+  const { messageId, conversationId } = payload;
+
+  return state.map((convo) => {
+    if(convo.id === conversationId) {
+      const convoCopy = { ...convo };
+      convoCopy.lastReadMessageByOtherUser = messageId;
+      return convoCopy;
+    } else {
+      return convo;
+    }
+  });
+};
+
 // sum unread messages
 export const incrementUnreadMessages = (state, conversationId) => {
   return state.map((convo) => {
