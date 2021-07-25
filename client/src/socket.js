@@ -23,7 +23,6 @@ socket.on("connect", () => {
     store.dispatch(setNewMessage(data.message, data.sender));
   });
   socket.on("read-message", (data) => {
-    console.log(data, 'llega el evento')
     store.dispatch(updateLastReadMessageByOther(data.message, data.conversation));
   });
 });

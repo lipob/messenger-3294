@@ -93,7 +93,6 @@ const sendMessage = (data, body) => {
 };
 
 const sendReadMessage = (messageId, conversationId) => {
-  console.log(messageId, conversationId)
   socket.emit("read-message", {
     message: messageId,
     conversation: conversationId,
