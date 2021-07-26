@@ -5,7 +5,8 @@ import {
   removeOfflineUserFromStore,
   addMessageToStore,
   updateMessages,
-  sumUnreadMessages,
+  incrementUnreadMessages,
+  updateLastReadMessage,
 } from "./utils/reducerFunctions";
 
 // ACTIONS
@@ -18,7 +19,8 @@ const SET_SEARCHED_USERS = "SET_SEARCHED_USERS";
 const CLEAR_SEARCHED_USERS = "CLEAR_SEARCHED_USERS";
 const ADD_CONVERSATION = "ADD_CONVERSATION";
 const RESET_UNREAD_MESSAGES = "RESET_UNREAD_MESSAGES";
-const COUNT_UNREAD_MESSAGES = 'COUNT_UNREAD_MESSAGES';
+const UPDATE_UNREAD_MESSAGES_COUNT = 'UPDATE_UNREAD_MESSAGES_COUNT';
+const UPDATE_LAST_READ_MESSAGE = 'UPDATE_LAST_READ_MESSAGE';
 
 // ACTION CREATORS
 
@@ -72,20 +74,28 @@ export const addConversation = (recipientId, newMessage) => {
 };
 
 // reset unread messages
-export const resetUnreadMessages = (data, conversationId) => {
+export const resetUnreadMessages = (messages, conversationId) => {
   return {
     type: RESET_UNREAD_MESSAGES,
-    payload: { data, conversationId },
+    payload: { messages, conversationId },
   };
 };
 
 // new unread messages counter
-export const countUnreadMessages = (conversationId) => {
+export const updateUnreadMessagesCount = (conversationId) => {
   return {
-    type: COUNT_UNREAD_MESSAGES,
+    type: UPDATE_UNREAD_MESSAGES_COUNT,
     conversationId
   }
 };
+
+// update last read message by other user
+export const updateLastReadMessageByOther = (messageId, conversationId) => {
+  return {
+    type: UPDATE_LAST_READ_MESSAGE,
+    payload: {messageId, conversationId}
+  }
+}
 
 // REDUCER
 
@@ -113,8 +123,10 @@ const reducer = (state = [], action) => {
       );
     case RESET_UNREAD_MESSAGES:
       return updateMessages(state, action.payload);
-    case COUNT_UNREAD_MESSAGES:
-      return sumUnreadMessages(state, action.conversationId);
+    case UPDATE_UNREAD_MESSAGES_COUNT:
+      return incrementUnreadMessages(state, action.conversationId);
+    case UPDATE_LAST_READ_MESSAGE:
+      return updateLastReadMessage(state, action.payload);
     default:
       return state;
   }
