@@ -45,7 +45,7 @@ class Input extends Component {
       this.setState({
         text: "",
       });
-    }
+    };
   };
 
   render() {

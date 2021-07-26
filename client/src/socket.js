@@ -6,8 +6,11 @@ import {
   addOnlineUser,
   updateLastReadMessageByOther,
 } from "./store/conversations";
+import { setNewMessageConvoId } from './store/newMessageConvoId';
 
-const socket = io(window.location.origin);
+const token = localStorage.getItem("messenger-token");
+
+const socket = io(window.location.origin, { auth: {token} });
 
 socket.on("connect", () => {
   console.log("connected to server");
@@ -21,6 +24,7 @@ socket.on("connect", () => {
   });
   socket.on("new-message", (data) => {
     store.dispatch(setNewMessage(data.message, data.sender));
+    store.dispatch(setNewMessageConvoId(data.message.conversationId));
   });
   socket.on("read-message", (data) => {
     store.dispatch(updateLastReadMessageByOther(data.message, data.conversation));

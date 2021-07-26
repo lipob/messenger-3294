@@ -6,6 +6,7 @@ import {
   addMessageToStore,
   updateMessages,
   incrementUnreadMessages,
+  updateConvosOrder,
   updateLastReadMessage,
 } from "./utils/reducerFunctions";
 
@@ -20,6 +21,7 @@ const CLEAR_SEARCHED_USERS = "CLEAR_SEARCHED_USERS";
 const ADD_CONVERSATION = "ADD_CONVERSATION";
 const RESET_UNREAD_MESSAGES = "RESET_UNREAD_MESSAGES";
 const UPDATE_UNREAD_MESSAGES_COUNT = 'UPDATE_UNREAD_MESSAGES_COUNT';
+const MOVE_CONVO_TO_TOP = 'MOVE_CONVO_TO_TOP';
 const UPDATE_LAST_READ_MESSAGE = 'UPDATE_LAST_READ_MESSAGE';
 
 // ACTION CREATORS
@@ -36,6 +38,13 @@ export const setNewMessage = (message, sender) => {
     type: SET_MESSAGE,
     payload: { message, sender: sender || null },
   };
+};
+
+export const moveConvoToTop = (conversationId) => {
+  return {
+    type: MOVE_CONVO_TO_TOP,
+    conversationId
+  }
 };
 
 export const addOnlineUser = (id) => {
@@ -105,6 +114,8 @@ const reducer = (state = [], action) => {
       return action.conversations;
     case SET_MESSAGE:
       return addMessageToStore(state, action.payload);
+    case MOVE_CONVO_TO_TOP:
+      return updateConvosOrder(state, action.conversationId);
     case ADD_ONLINE_USER: {
       return addOnlineUserToStore(state, action.id);
     }
