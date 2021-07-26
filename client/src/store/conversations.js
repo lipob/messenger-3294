@@ -7,6 +7,7 @@ import {
   updateMessages,
   incrementUnreadMessages,
   updateConvosOrder,
+  updateLastReadMessage,
 } from "./utils/reducerFunctions";
 
 // ACTIONS
@@ -21,6 +22,7 @@ const ADD_CONVERSATION = "ADD_CONVERSATION";
 const RESET_UNREAD_MESSAGES = "RESET_UNREAD_MESSAGES";
 const UPDATE_UNREAD_MESSAGES_COUNT = 'UPDATE_UNREAD_MESSAGES_COUNT';
 const MOVE_CONVO_TO_TOP = 'MOVE_CONVO_TO_TOP';
+const UPDATE_LAST_READ_MESSAGE = 'UPDATE_LAST_READ_MESSAGE';
 
 // ACTION CREATORS
 
@@ -81,10 +83,10 @@ export const addConversation = (recipientId, newMessage) => {
 };
 
 // reset unread messages
-export const resetUnreadMessages = (data, conversationId) => {
+export const resetUnreadMessages = (messages, conversationId) => {
   return {
     type: RESET_UNREAD_MESSAGES,
-    payload: { data, conversationId },
+    payload: { messages, conversationId },
   };
 };
 
@@ -95,6 +97,14 @@ export const updateUnreadMessagesCount = (conversationId) => {
     conversationId
   }
 };
+
+// update last read message by other user
+export const updateLastReadMessageByOther = (messageId, conversationId) => {
+  return {
+    type: UPDATE_LAST_READ_MESSAGE,
+    payload: {messageId, conversationId}
+  }
+}
 
 // REDUCER
 
@@ -126,6 +136,8 @@ const reducer = (state = [], action) => {
       return updateMessages(state, action.payload);
     case UPDATE_UNREAD_MESSAGES_COUNT:
       return incrementUnreadMessages(state, action.conversationId);
+    case UPDATE_LAST_READ_MESSAGE:
+      return updateLastReadMessage(state, action.payload);
     default:
       return state;
   }

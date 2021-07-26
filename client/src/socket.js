@@ -4,6 +4,7 @@ import {
   setNewMessage,
   removeOfflineUser,
   addOnlineUser,
+  updateLastReadMessageByOther,
 } from "./store/conversations";
 import { setNewMessageConvoId } from './store/newMessageConvoId';
 
@@ -24,6 +25,9 @@ socket.on("connect", () => {
   socket.on("new-message", (data) => {
     store.dispatch(setNewMessage(data.message, data.sender));
     store.dispatch(setNewMessageConvoId(data.message.conversationId));
+  });
+  socket.on("read-message", (data) => {
+    store.dispatch(updateLastReadMessageByOther(data.message, data.conversation));
   });
 });
 
